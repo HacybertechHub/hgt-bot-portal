@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HGT-BOT Admin - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080a12;--card:#10131f;--border:#1e2338;--accent:#00ff88;--text:#e6e8f0;--muted:#8b90a8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.mono{font-family:'JetBrains Mono',monospace}
+.login{width:100%;max-width:420px;padding:32px;background:var(--card);border:1px solid var(--border);border-radius:20px}
+.login h1{font-size:22px;margin-bottom:6px}
+.login p{color:var(--muted);font-size:13px;margin-bottom:20px}
+.input{width:100%;background:#0a0c15;border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;margin-bottom:12px}
+.btn{background:var(--accent);color:#000;border:none;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer;width:100%}
+.btn:hover{filter:brightness(1.1)}
+.dashboard{display:none;width:100%;max-width:1200px;padding:20px}
+.header{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border);margin-bottom:20px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+@media(max-width:900px){.cards{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+.card h3{font-size:12px;color:var(--muted);margin-bottom:8px}
+.card .val{font-size:22px;font-weight:700}
+.table{width:100%;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 0.8fr;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;align-items:center}
+.row.head{background:#0a0c15;color:var(--muted);font-size:11px;text-transform:uppercase}
+.badge{font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid var(--border)}
+.badge-green{background:rgba(0,255,136,0.1);border-color:rgba(0,255,136,0.3);color:#00ff88}
+.badge-yellow{background:rgba(255,204,0,0.1);border-color:rgba(255,204,0,0.3);color:#ffcc00}
+.wallets{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:800px){.wallets{grid-template-columns:1fr}}
+.wallet{border:1px solid var(--border);border-radius:12px;padding:14px;background:#0c0e1a}
+.wallet-addr{font-size:11px;word-break:break-all;background:#080a12;padding:8px;border-radius:6px;margin:8px 0}
+.filter{display:flex;gap:8px;margin:10px 0}
+.filter button{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;cursor:pointer}
+.filter button.active{background:var(--accent);color:#000;font-weight:700}
+</style>
+</head>
+<body>
+<div id="loginBox" class="login">
+<h1>HGT Admin Login</h1>
+<p class="mono">hgt-bot-portal /admin.html</p>
+<input id="pass" type="password" class="input mono" placeholder="Admin Password">
+<button class="btn" onclick="login()">Access Dashboard</button>
+<div class="mono" style="margin-top:12px;font-size:11px;color:var(--muted)">Default: HGTAdmin2026! • Change in code</div>
+<div id="loginErr" class="mono" style="color:#ff5555;font-size:12px;margin-top:10px;display:none"></div>
+</div>
+
+<div id="dash" class="dashboard">
+<div class="header">
+<div><b class="mono" style="font-size:18px">HGT-BOT ADMIN</b> <span class="mono" style="color:var(--muted);font-size:12px">v4.2.1 Pro Dashboard</span></div>
+<div><a href="index.html" class="mono" style="color:var(--muted);text-decoration:none;font-size:12px;border:1px solid var(--border);padding:8px 12px;border-radius:8px">← Portal</a></div>
+</div>
+
+<div class="cards">
+<div class="card"><h3>TOTAL NTC ISSUED</h3><div class="val mono">1,247</div><div class="mono" style="font-size:11px;color:#00ff88">+12 today</div></div>
+<div class="card"><h3>PAYMENTS PENDING</h3><div class="val mono">23</div><div class="mono" style="font-size:11px;color:#ffcc00">USDT 8 • BTC 5 • ETH 4 • BANK 6</div></div>
+<div class="card"><h3>ACTIVE LICENSES</h3><div class="val mono">892</div><div class="mono" style="font-size:11px;color:var(--muted)">HGT-NTC-2026-XXXX</div></div>
+<div class="card"><h3>APPEALS</h3><div class="val mono">7</div><div class="mono" style="font-size:11px;color:#ff5555">2 urgent</div></div>
+</div>
+
+<div class="table">
+<div class="row head mono"><div>NTC ID</div><div>Client</div><div>Payment</div><div>Status</div><div>Action</div></div>
+<div class="row mono"><div>HGT-NTC-2026-A4F2</div><div>client_8921</div><div>USDT $150</div><div><span class="badge badge-green">VERIFIED</span></div><div>View</div></div>
+<div class="row mono"><div>HGT-NTC-2026-B7K1</div><div>client_8922</div><div>BTC $84</div><div><span class="badge badge-yellow">CUSTOM PENDING</span></div><div>View</div></div>
+<div class="row mono"><div>HGT-NTC-2026-C9L3</div><div>client_8923</div><div>BANK $84</div><div><span class="badge badge-green">VERIFIED</span></div><div>View</div></div>
+<div class="row mono"><div>HGT-NTC-2026-D2M8</div><div>client_8924</div><div>ETH $250</div><div><span class="badge badge-green">VERIFIED</span></div><div>View</div></div>
+<div class="row mono"><div>HGT-NTC-2026-E5N0</div><div>client_8925</div><div>BTC $200</div><div><span class="badge badge-yellow">CUSTOM - 0.0029 BTC</span></div><div>View</div></div>
+</div>
+
+<div class="wallets">
+<div class="card">
+<h3 style="font-size:14px;color:var(--text)">💳 Wallet Management - 4 Wallets</h3>
+<div class="filter"><button id="wAll" class="active" onclick="filterW('all')">All 4</button><button id="wFixed" onclick="filterW('fixed')">Fixed Only (Hides BTC)</button></div>
+
+<div class="wallet" data-type="fixed"><b class="mono" style="font-size:12px">USDT TRC-20 - FIXED</b><div class="wallet-addr mono">TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6</div><div class="mono" style="font-size:11px;color:var(--muted)">Plans: $84 / $150 / $250</div></div>
+<div class="wallet" data-type="custom" style="border-color:rgba(255,204,0,0.4)"><b class="mono" style="font-size:12px">BTC - CUSTOM (Yellow Badge)</b><div class="wallet-addr mono">35e99VQwk2dYUiBJeKe2wnd73drgFFacPp</div><div class="mono" style="font-size:11px;color:#ffcc00">Custom amount - live USD→BTC converter on portal</div></div>
+<div class="wallet" data-type="fixed"><b class="mono" style="font-size:12px">ETH ERC-20 - FIXED</b><div class="wallet-addr mono">0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f</div></div>
+<div class="wallet" data-type="fixed"><b class="mono" style="font-size:12px">LEAD BANK - FIXED</b><div class="wallet-addr mono">217061367039 / 101019644 - Godfrey N Joshua</div></div>
+</div>
+
+<div class="card">
+<h3 style="font-size:14px;color:var(--text)">🔐 NTC Controls</h3>
+<div style="margin-top:12px">
+<input class="input mono" placeholder="Generate new HGT-NTC-2026-XXXX" id="newNTC"><button class="btn" style="padding:8px" onclick="genNTC()">Generate NTC</button>
+<div style="margin-top:16px">
+<div class="mono" style="font-size:11px;color:var(--muted)">QUICK ACTIONS</div>
+<button class="btn" style="background:transparent;border:1px solid var(--border);color:var(--text);margin-top:8px" onclick="alert('Exporting 1,247 licenses to CSV...')">Export Licenses CSV</button>
+<button class="btn" style="background:transparent;border:1px solid var(--border);color:var(--text);margin-top:8px" onclick="alert('All payment QR codes refreshed')">Refresh All QR Codes</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+function login(){const p=document.getElementById('pass').value;if(p==='HGTAdmin2026!'){document.getElementById('loginBox').style.display='none';document.getElementById('dash').style.display='block';}else{document.getElementById('loginErr').style.display='block';document.getElementById('loginErr').innerText='❌ Wrong password. Default: HGTAdmin2026!';}}
+function filterW(t){document.querySelectorAll('.filter button').forEach(b=>b.classList.remove('active'));document.getElementById(t==='all'?'wAll':'wFixed').classList.add('active');document.querySelectorAll('.wallet').forEach(w=>{if(t==='all')w.style.display='block';else w.style.display=w.dataset.type==='fixed'?'block':'none';});}
+function genNTC(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';let r='';for(let i=0;i<4;i++)r+=chars.charAt(Math.floor(Math.random()*chars.length));document.getElementById('newNTC').value='HGT-NTC-2026-'+r;}
+</script>
+</body>
+</html>
