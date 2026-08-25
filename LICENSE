@@ -1,22 +1,45 @@
 HGT-BOT PORTAL - PROPRIETARY LICENSE
 Copyright (c) 2026 HGT-BOT. All Rights Reserved.
+Repository: HacybertechHub/hgt-bot-portal
 
 This software and all associated files (including but not limited to:
-portal code, payment QR systems, wallet addresses, bot installation 
-files, NTC verification system, branding and logos) are proprietary 
-and confidential.
+portal source code, payment QR systems, wallet addresses, bot installation 
+files, NTC verification system HGT-NTC-2026-XXXX, branding and logos) are 
+proprietary and confidential to HGT-BOT.
+
+WALLET ADDRESSES PROTECTED:
+- USDT TRC-20: TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6 (FIXED)
+- BTC: 35e99VQwk2dYUiBJeKe2wnd73drgFFacPp (CUSTOM)
+- ETH: 0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f (FIXED)
+- LEAD BANK: 217061367039 / 101019644 - Godfrey N Joshua (FIXED)
 
 RESTRICTIONS:
 1. No copying, redistribution, modification, or derivative works allowed
 2. No commercial use without written permission from HGT-BOT owner
-3. No removal or alteration of wallet addresses (USDT: TBdEnS...Xqj6,
-   BTC: 35e99V...FacPp, ETH: 0x575a...f8a8f, LEAD BANK: 217061367039)
-4. No deployment of clones or competing portals using this code
+3. No removal, replacement or alteration of wallet addresses listed above
+4. No deployment of clone portals or competing services using this code
+5. No reverse engineering of NTC HGT-NTC-2026-XXXX generation system
 
-PERMITTED:
-- Viewing the live portal at https://HacybertechHub.github.io/hgt-bot-portal/
+PERMITTED USE:
+- Viewing the live portal at https://hacybertechhub.github.io/hgt-bot-portal/
 - Personal use by licensed clients with valid HGT-NTC-2026-XXXX
+- Educational review of code structure (no reuse)
 
-Unauthorized use will result in DMCA takedown and legal action.
+OWNERSHIP:
+All payment wallets, bot logic, and NTC systems remain sole property of 
+HGT-BOT. This license does not grant any rights to financial assets.
 
-Contact: HGT-BOT Official - Telegram Support
+ENFORCEMENT:
+Unauthorized use, wallet replacement, or portal cloning will result in:
+- DMCA takedown notice to GitHub
+- Legal action for copyright infringement
+- Report to financial fraud authorities
+
+DISCLAIMER:
+This software is provided "as is" for licensed HGT-BOT clients only.
+Trading involves risk. HGT-BOT not liable for trading losses.
+
+For licensing inquiries: HGT-BOT Official - Telegram Support
+Official Portal: https://hacybertechhub.github.io/hgt-bot-portal/
+
+© 2026 HGT-BOT. All Rights Reserved. Official NTC System.
