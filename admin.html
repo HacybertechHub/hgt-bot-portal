@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HGT-BOT Admin v5.0 - Dashboard</title>
-<script src="config.js"></script>
+<script src="./config.js?v=5.0.1"></script>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#080a12;--card:#10131f;--border:#1e2338;--accent:#00ff88;--text:#e6e8f0;--muted:#8b90a8}
@@ -17,8 +17,8 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 .input{width:100%;background:#0a0c15;border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;margin-bottom:12px;text-align:left}
 .btn{background:var(--accent);color:#000;border:none;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer;width:100%}
 .btn:hover{filter:brightness(1.1)}
-.logos{display:flex;justify-content:center;align-items:center;gap:18px;margin-bottom:22px}
-.logos img{object-fit:contain}
+.logos{display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:22px;min-height:64px;background:#080a12;border:1px dashed var(--border);border-radius:12px;padding:10px}
+.logos img{object-fit:contain;background:#0a0c15;border-radius:8px;padding:4px}
 .dashboard{display:none;width:100%;max-width:1200px;padding:20px}
 .header{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border);margin-bottom:20px;flex-wrap:wrap;gap:12px}
 .header-left{display:flex;align-items:center;gap:14px}
@@ -46,12 +46,12 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 <body>
 <div id="loginBox" class="login">
 <div class="logos">
-<img src="hacyber_global_fixed.png" style="width:56px" alt="HACYBER">
-<img src="hgt_bot_fixed.png" style="width:56px" alt="HGT-BOT">
-<img src="hgt_billing_fixed.png" style="width:120px" alt="BILLING HUB">
+<img src="./hacyber_global_fixed.png" onerror="this.src='https://via.placeholder.com/56x56/00ff88/000?text=H';this.onerror=null" style="width:56px;height:56px" alt="HACYBER">
+<img src="./hgt_bot_fixed.png" onerror="this.src='https://via.placeholder.com/56x56/10131f/00ff88?text=BOT';this.onerror=null" style="width:56px;height:56px" alt="HGT-BOT">
+<img src="./hgt_billing_fixed.png" onerror="this.src='https://via.placeholder.com/120x36/10131f/00ff88?text=BILLING';this.onerror=null" style="width:120px;height:36px" alt="BILLING HUB">
 </div>
 <h1>HGT Admin Login <span class="ver mono" id="verBadge">v5.0</span></h1>
-<p class="mono">hgt-bot-portal /admin.html • IF Gate • ENV v5.0 • Versioning</p>
+<p class="mono">hgt-bot-portal /admin.html • IF Gate • v5.0 • Versioning</p>
 <input id="pass" type="password" class="input mono" placeholder="Password: admin217 (v5.0 current)" onkeydown="if(event.key==='Enter')login()">
 <button class="btn" onclick="login()">Access Dashboard</button>
 <div id="loginErr" class="mono" style="color:#ff5555;font-size:12px;margin-top:10px;display:none"></div>
@@ -64,14 +64,14 @@ ENV: <span id="envStatus">Checking...</span><br>
 <div id="dash" class="dashboard">
 <div class="header">
 <div class="header-left">
-<img src="hacyber_global_fixed.png" style="width:38px" alt="logo">
-<img src="hgt_bot_fixed.png" style="width:38px" alt="bot">
+<img src="./hacyber_global_fixed.png" onerror="this.style.display='none'" style="width:38px;height:38px;border-radius:6px" alt="logo">
+<img src="./hgt_bot_fixed.png" onerror="this.style.display='none'" style="width:38px;height:38px;border-radius:6px" alt="bot">
 <div><b class="mono" style="font-size:16px">HGT-BOT ADMIN <span class="ver mono" id="dashVer">v5.0</span></b> <div class="mono" style="color:var(--muted);font-size:11px">HGT BILLING HUB • ENV v5.0 SECURE • Fallback Active</div></div>
-<img src="hgt_billing_fixed.png" style="width:90px;margin-left:8px" alt="billing">
+<img src="./hgt_billing_fixed.png" onerror="this.style.display='none'" style="width:90px;height:28px;object-fit:contain;margin-left:8px" alt="billing">
 </div>
 <div style="display:flex;gap:8px;align-items:center">
 <span class="mono" style="color:var(--accent);font-size:11px;border:1px solid var(--accent);padding:8px 12px;border-radius:8px" id="secureBadge">● SECURE IF ACTIVE</span>
-<a href="index.html" class="mono" style="color:var(--muted);text-decoration:none;font-size:12px;border:1px solid var(--border);padding:8px 12px;border-radius:8px">← Portal</a>
+<a href="./index.html" class="mono" style="color:var(--muted);text-decoration:none;font-size:12px;border:1px solid var(--border);padding:8px 12px;border-radius:8px">← Portal</a>
 </div>
 </div>
 
@@ -104,140 +104,4 @@ ENV: <span id="envStatus">Checking...</span><br>
 <div style="margin-top:16px">
 <div class="mono" style="font-size:11px;color:var(--muted)">ADMIN VERSIONS (Fallbacks)</div>
 <div id="versionList" class="mono" style="font-size:10px;background:#080a12;padding:8px;border-radius:6px;margin-top:6px;line-height:1.8"></div>
-<div class="mono" style="font-size:11px;color:var(--muted);margin-top:12px">QUICK ACTIONS</div>
-<button class="btn" style="background:transparent;border:1px solid var(--border);color:var(--text);margin-top:8px" onclick="alert('Exporting 1,247 licenses...')">Export Licenses CSV</button>
-<button class="btn" style="background:transparent;border:1px solid var(--border);color:var(--text);margin-top:8px" onclick="alert('QR codes refreshed')">Refresh QR Codes</button>
-<button class="btn" style="background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.3);color:#ff5555;margin-top:12px" onclick="logout()">🔒 Logout</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<script>
-// ENV v5.0 Enhanced Helper
-function initENV(){
-  const el = document.getElementById('envStatus');
-  const info = document.getElementById('envInfo');
-  const det = document.getElementById('envDetails');
-  const vCard = document.getElementById('versionCard');
-  const bDate = document.getElementById('buildDate');
-  const vBadge = document.getElementById('verBadge');
-  const dVer = document.getElementById('dashVer');
-  const vList = document.getElementById('versionList');
-
-  if(!window.ENV){
-    el.innerText='❌ config.js not loaded';
-    el.style.color='#ff5555';
-    info.innerHTML='Create config.js first';
-    return;
-  }
-
-  // Versioning display
-  if(vBadge) vBadge.innerText = window.ENV.VERSION || 'v5.0';
-  if(dVer) dVer.innerText = window.ENV.VERSION || 'v5.0';
-  if(vCard) vCard.innerText = window.ENV.VERSION || 'v5.0';
-  if(bDate) bDate.innerText = window.ENV.BUILD_DATE || 'ENV Secure';
-
-  // Injection status
-  if(window.ENV.ADMIN_PRIMARY === "__ADMIN_PASS__" || window.ENV.ADMIN_PASS === "__ADMIN_PASS__"){
-    el.innerText='⚠️ Placeholder (need GitHub Secrets ADMIN_PASS)';
-    el.style.color='#ffcc00';
-  } else {
-    el.innerText='✅ ENV Injected (Secrets active) - v5.0';
-    el.style.color='#00ff88';
-  }
-
-  if(info){
-    info.innerHTML =
-      'Current: <b style="color:#00ff88">'+ (window.ENV.ADMIN_CURRENT || 'admin217') +'</b><br>'+
-      'Fallbacks: '+ (window.ENV.ADMIN_FALLBACKS? window.ENV.ADMIN_FALLBACKS.length : 4) +' versions<br>'+
-      'Build: '+ (window.ENV.BUILD_DATE||'-');
-  }
-
-  if(det){
-    det.innerHTML=
-      '<b>DEBUG v5.0:</b><br>'+
-      'Injected: '+(window.ENV.isInjected? window.ENV.isInjected() : 'unknown')+'<br>'+
-      'USDT: '+(window.ENV.USDT_TRC20||'-')+'<br>'+
-      'BTC: '+(window.ENV.BTC||'-')+'<br>'+
-      'ETH: '+(window.ENV.ETH||'-')+'<br>'+
-      'BANK: '+(window.ENV.BANK_ACCOUNT||'-')+'<br>'+
-      'Ver: '+(window.ENV.getVersion? window.ENV.getVersion() : window.ENV.VERSION);
-  }
-
-  if(vList && window.ENV.ADMIN_VERSIONS){
-    let html='';
-    for(let v in window.ENV.ADMIN_VERSIONS){
-      const isCurrent = window.ENV.ADMIN_VERSIONS[v] === window.ENV.ADMIN_CURRENT;
-      html+= v + ': ' + window.ENV.ADMIN_VERSIONS[v] + (isCurrent?' <span style="color:#00ff88">← CURRENT</span>':'') + '<br>';
-    }
-    vList.innerHTML = html;
-  }
-}
-initENV();
-
-// WALLET DATA - from ENV v5.0 with fallback
-function getWallets(){
-  if(window.ENV){
-    return [
-      { type: 'fixed', title: 'USDT TRC-20 - FIXED', addr: window.ENV.USDT_TRC20 || 'TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6', desc: 'Plans: $84 / $150 / $250' },
-      { type: 'custom', title: 'BTC - CUSTOM (Yellow Badge)', addr: window.ENV.BTC || '35e99VQwk2dYUiBJeKe2wnd73drgFFacPp', desc: 'Custom amount - live USD→BTC converter', highlight: true },
-      { type: 'fixed', title: 'ETH ERC-20 - FIXED', addr: window.ENV.ETH || '0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f', desc: '' },
-      { type: 'fixed', title: 'LEAD BANK - FIXED', addr: (window.ENV.BANK_FULL || window.ENV.BANK_ACCOUNT + ' / ' + window.ENV.BANK_NUMBER + ' - ' + window.ENV.BANK_NAME), desc: '' }
-    ];
-  }
-  return [
-    { type: 'fixed', title: 'USDT TRC-20 - FIXED', addr: 'TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6', desc: 'Plans: $84 / $150 / $250' },
-    { type: 'custom', title: 'BTC - CUSTOM', addr: '35e99VQwk2dYUiBJeKe2wnd73drgFFacPp', desc: 'Custom amount', highlight: true },
-    { type: 'fixed', title: 'ETH ERC-20 - FIXED', addr: '0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f', desc: '' },
-    { type: 'fixed', title: 'LEAD BANK - FIXED', addr: '217061367039 / 101019644 - Godfrey N Joshua', desc: '' }
-  ];
-}
-
-function login(){
-  const p = document.getElementById('pass').value;
-  const err = document.getElementById('loginErr');
-
-  // v5.0 Enhanced: Check ANY version (admin217 + fallbacks)
-  let isValid = false;
-  if(window.ENV && window.ENV.isValidAdmin){
-    isValid = window.ENV.isValidAdmin(p);
-  } else if(window.ENV){
-    isValid = (p === window.ENV.ADMIN_PASS || p === "admin217" || p === "HGTAdmin2026!");
-  } else {
-    isValid = (p === "admin217");
-  }
-
-  if(isValid){
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('dash').style.display='block';
-    renderWallets();
-    document.getElementById('secureBadge').innerText = '● v5.0 SECURE - ' + p;
-  } else {
-    err.style.display='block';
-    err.innerText = p === ""? "❌ Enter password - try: admin217" : "❌ Wrong - Valid: admin217 (v5.0), HGTAdmin2026! (v4.2), etc";
-  }
-}
-
-function renderWallets(){
-  const c = document.getElementById('walletsContainer'); c.innerHTML="";
-  const WALLET_DATA = getWallets();
-  WALLET_DATA.forEach(w=>{
-    c.innerHTML+=`<div class="wallet" data-type="${w.type}" ${w.highlight?'style="border-color:rgba(255,204,0,0.4)"':''}><b class="mono" style="font-size:12px">${w.title}</b><div class="wallet-addr mono">${w.addr}</div><div class="mono" style="font-size:11px;color:${w.highlight?'#ffcc00':'var(--muted)'}">${w.desc}</div></div>`;
-  });
-}
-
-function filterW(t){
-  document.querySelectorAll('.filter button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(t==='all'?'wAll':'wFixed').classList.add('active');
-  document.querySelectorAll('.wallet').forEach(w=>{
-    if(t==='all'){ w.style.display='block'; }
-    else { w.style.display = w.dataset.type==='fixed'? 'block' : 'none'; }
-  });
-}
-function genNTC(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';let r='';for(let i=0;i<4;i++)r+=chars.charAt(Math.floor(Math.random()*chars.length));document.getElementById('newNTC').value=(window.ENV?window.ENV.NTC_PREFIX:'HGT-NTC-2026-')+r;}
-function logout(){ if(confirm("Logout? Version: "+(window.ENV?window.ENV.VERSION:'v5.0'))){ document.getElementById('walletsContainer').innerHTML=""; document.getElementById('dash').style.display='none'; document.getElementById('loginBox').style.display='block'; document.getElementById('pass').value=""; } }
-</script>
-</body>
-</html>
+<div class="mono" style="font-size:11px;color:var(--muted);margin-top:12px">QUICK A
