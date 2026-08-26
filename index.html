@@ -11,7 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh}
 .mono{font-family:'JetBrains Mono',monospace}
-.header{border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(8,10,18,0.92);backdrop-filter:blur(12px);z-index:100}
+.header{border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(8,10,18,0.92);backdrop-filter:blur(10px)}
 .logo{display:flex;align-items:center;gap:14px;font-weight:700;font-size:18px}
 .logo img{object-fit:contain}
 .logo-badge{background:var(--accent);color:#000;padding:4px 10px;border-radius:6px;font-size:12px}
@@ -19,14 +19,17 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 .nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:8px}
 .nav a:hover{color:var(--text);border-color:var(--accent)}
 .container{max-width:1100px;margin:0 auto;padding:24px}
-.hero{background:linear-gradient(135deg,#10131f 0%,#121525 100%);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:24px;position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.hero{background:linear-gradient(135deg,#10131f 0%,#121525 100%);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:24px;position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:flex-start;gap:32px}
 .hero::after{content:'';position:absolute;top:-50%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,255,136,0.15),transparent);filter:blur(40px)}
 .hero-content{position:relative;z-index:2}
 .hero h1{font-size:32px;margin-bottom:8px}
 .hero p{color:var(--muted);max-width:600px;line-height:1.6}
 .hero-logos{position:relative;z-index:2;display:flex;align-items:center;gap:16px;background:rgba(8,10,18,0.6);border:1px solid var(--border);padding:12px 16px;border-radius:14px}
+.hero-icons{position:relative;z-index:2;display:flex;gap:16px;align-items:center}
+.hero-icon{width:120px;height:120px;background:rgba(8,10,18,0.5);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-icon img{width:100%;height:100%;object-fit:cover;border-radius:14px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start}}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start}.hero-icons{flex-wrap:wrap}}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
 .card h2{font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .badge{font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid var(--border)}
@@ -61,7 +64,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 <div class="logo">
 <img src="hacyber_global_fixed.png" style="width:36px" alt="HGT">
 <img src="hgt_bot_fixed.png" style="width:36px" alt="BOT">
-<span style="display:flex;flex-direction:column;line-height:1"><span>HGT-BOT PORTAL <span class="logo-badge mono">v4.2.1 Pro</span></span><span class="mono" style="font-size:10px;color:var(--muted);font-weight:400">HACYBER GLOBALTECH • SECURE PAYMENT</span></span>
+<span style="display:flex;flex-direction:column;line-height:1"><span>HGT-BOT PORTAL <span class="logo-badge mono">v4.2.1 Pro</span></span><span class="mono" style="font-size:10px;color:var(--muted)">Secure Payment Hub</span></span>
 </div>
 <div class="nav">
 <img src="hgt_billing_fixed.png" style="width:84px" alt="Billing Hub">
@@ -72,16 +75,19 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 <div class="hero">
 <div class="hero-content">
 <h1>Official NTC Portal</h1>
-<p>Verify license <span class="mono" style="color:var(--accent)">HGT-NTC-2026-XXXX</span>, activate bot, secure payments & download installation files. All wallets verified & protected by <b>HGT BILLING HUB</b>.</p>
+<p>Verify license <span class="mono" style="color:var(--accent)">HGT-NTC-2026-XXXX</span>, activate bot, secure payments & download installation files. All wallets verified & protected by <b>HGT Billing Hub</b>.</p>
 <div class="row" style="margin-top:18px">
 <button class="btn btn-small" onclick="generateNTC()">Generate NTC ID</button>
 <span class="mono" id="ntcDisplay" style="margin-left:12px;color:var(--accent)">HGT-NTC-2026-XXXX</span>
 </div>
 </div>
-<div class="hero-logos">
-<img src="hacyber_global_fixed.png" style="width:48px" alt="H">
-<img src="hgt_bot_fixed.png" style="width:48px" alt="Bot">
-<div style="text-align:left" class="mono"><div style="font-size:11px;color:var(--muted)">POWERED BY</div><div style="font-size:12px;font-weight:700">HGT BILLING HUB</div><div style="font-size:10px;color:var(--accent)">SECURE PAYMENT</div></div>
+<div class="hero-icons">
+<div class="hero-icon">
+<img src="security-shield.png" alt="Security Shield">
+</div>
+<div class="hero-icon">
+<img src="robot-head.png" alt="Robot Head">
+</div>
 </div>
 </div>
 <div class="grid">
@@ -113,7 +119,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 <div class="wallet-addr mono">35e99VQwk2dYUiBJeKe2wnd73drgFFacPp</div>
 <div style="background:rgba(255,204,0,0.08);border-radius:8px;padding:10px;margin:8px 0">
 <div class="mono" style="font-size:11px;color:#ffcc00;margin-bottom:6px">USD → BTC Live Converter (IF logic)</div>
-<div class="row"><input id="btcUSD" class="input mono" style="width:110px" value="84" type="number" oninput="calcBTC()"><span class="mono" style="font-size:12px">USD =</span><span id="btcOut" class="mono" style="font-size:12px;color:var(--accent)">0.0000 BTC</span></div>
+<div class="row"><input id="btcUSD" class="input mono" style="width:110px" value="84" type="number" oninput="calcBTC()"><span class="mono" style="font-size:12px">USD =</span><span id="btcOut" class="mono" style="font-size:13px;color:var(--accent);font-weight:700">0.00 BTC</span></div>
 <div class="mono" style="font-size:10px;color:var(--muted);margin-top:6px">Rate: <span id="btcRate">Loading...</span></div>
 </div>
 <div class="qr-box"><div class="qr" id="qrBTC"></div><div style="font-size:12px;color:var(--muted)">Custom pricing<br>Enter USD above<br>Send exact BTC</div></div>
@@ -164,7 +170,6 @@ ELSE: Verify NTC first
 </div>
 </div>
 </div>
-</div>
 <div class="footer mono">
 <div class="footer-logos">
 <img src="hacyber_global_fixed.png" style="width:32px" alt="H">
@@ -177,7 +182,7 @@ Wallets Verified: USDT TBdEnS...Xqj6 | BTC 35e99V...FacPp (CUSTOM) | ETH 0x575a.
 </div>
 <script>
 let currentNTC='HGT-NTC-2026-XXXX';
-function generateNTC(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';let r='';for(let i=0;i<4;i++)r+=chars.charAt(Math.floor(Math.random()*chars.length));currentNTC='HGT-NTC-2026-'+r;document.getElementById('ntcDisplay').innerText=currentNTC;document.getElementById('ntcInput').value=currentNTC;makeQR('ntcQR',currentNTC);document.getElementById('verifyResult').style.display='block';document.getElementById('verifyResult').innerHTML='✅ Generated: '+currentNTC+'<br>Save this ID - required for all bots';}
+function generateNTC(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';let r='';for(let i=0;i<4;i++)r+=chars.charAt(Math.floor(Math.random()*chars.length));currentNTC='HGT-NTC-2026-'+r;document.getElementById('ntcDisplay').innerText=currentNTC;}
 function verifyNTC(){
   const v=document.getElementById('ntcInput').value.trim();
   if(!v.match(/^HGT-NTC-2026-[A-Z0-9]{4}$/)){
@@ -190,7 +195,7 @@ function verifyNTC(){
     document.getElementById('verifyResult').innerHTML='✅ Verified: '+v+'<br>License active - proceed to payment & installation';
   }
 }
-function makeQR(id,text){document.getElementById(id).innerHTML='';new QRCode(document.getElementById(id),{text:text,width:96,height:96,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+function makeQR(id,text){document.getElementById(id).innerHTML='';new QRCode(document.getElementById(id),{text:text,width:96,height:96,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}
 function copyAddr(t){navigator.clipboard.writeText(t);alert('Copied: '+t);}
 function filterWallets(type){
   document.querySelectorAll('.filter button').forEach(b=>b.classList.remove('active'));
@@ -204,9 +209,9 @@ function downloadBot(name){
   if(!document.getElementById('ntcInput').value){alert('Verify NTC ID first! IF NTC empty THEN block download');return;}
   else {alert('Downloading HGT-'+name.toUpperCase()+' for '+currentNTC+'\nLink: drive.google.com/hgt-bot-'+name);}
 }
-function submitAppeal(){const n=document.getElementById('appealNTC').value;const m=document.getElementById('appealMsg').value;if(!n||!m){alert('Enter NTC and message');return;}document.getElementById('appealResult').style.display='block';document.getElementById('appealResult').innerHTML='✅ Appeal submitted for '+n+'<br>Ticket: HGT-APPEAL-'+Math.floor(Math.random()*9000+1000)+'<br>Telegram @HGTBotSupport will reply in 2h';}
-async function calcBTC(){try{const res=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');const data=await res.json();const price=data.bitcoin.usd;document.getElementById('btcRate').innerText='$'+price.toLocaleString();const usd=parseFloat(document.getElementById('btcUSD').value)||0;const btc=usd/price;document.getElementById('btcOut').innerText=btc.toFixed(6)+' BTC';makeQR('qrBTC','bitcoin:35e99VQwk2dYUiBJeKe2wnd73drgFFacPp?amount='+btc);}catch(e){document.getElementById('btcRate').innerText='~$67,000 (offline)';const usd=parseFloat(document.getElementById('btcUSD').value)||0;document.getElementById('btcOut').innerText=(usd/67000).toFixed(6)+' BTC';}}
-window.onload=function(){makeQR('qrUSDT','TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6');makeQR('qrBTC','35e99VQwk2dYUiBJeKe2wnd73drgFFacPp');makeQR('qrETH','0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f');makeQR('ntcQR','HGT-NTC-2026-XXXX');calcBTC();generateNTC();};
+function submitAppeal(){const n=document.getElementById('appealNTC').value;const m=document.getElementById('appealMsg').value;if(!n||!m){alert('Enter NTC and message');return;}document.getElementById('appealResult').style.display='block';document.getElementById('appealResult').innerHTML='✅ Appeal submitted for '+n+'. Support team will contact you in 24h.';}
+async function calcBTC(){try{const res=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');const data=await res.json();const price=data.bitcoin.usd;document.getElementById('btcRate').innerText='$'+price.toLocaleString();const usd=parseFloat(document.getElementById('btcUSD').value)||0;const btc=(usd/price).toFixed(8);document.getElementById('btcOut').innerText=btc+' BTC';}catch(e){document.getElementById('btcRate').innerText='Failed to load rate';}}
+window.onload=function(){makeQR('qrUSDT','TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6');makeQR('qrBTC','35e99VQwk2dYUiBJeKe2wnd73drgFFacPp');makeQR('qrETH','0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f');makeQR('ntcQR',currentNTC);calcBTC();}
 </script>
 </body>
 </html>
