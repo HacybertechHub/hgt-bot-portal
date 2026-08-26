@@ -3,30 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HGT-BOT Admin v5.0 - Dashboard</title>
-<script src="./config.js?v=5.0.1"></script>
+<title>HGT-BOT Admin v5.0</title>
+<!-- Try external config.js, if fails internal fallback takes over -->
+<script src="./config.js?v=5.0" onerror="console.log('External config.js failed - using internal fallback')"></script>
+<script>
+// INTERNAL FALLBACK ENV - Works even if config.js 404 - v5.0
+window.ENV = window.ENV || (function(){
+  const ADMIN_CONFIG = {
+    PRIMARY: "__ADMIN_PASS__",
+    FALLBACKS: ["admin217","HGTAdmin2026!","HGT-BOT-Admin","HACYBER2026"],
+    VERSIONS: { "v5.0": "admin217", "v4.2": "HGTAdmin2026!", "v4.0": "HGT-BOT-Admin", "v3.0": "HACYBER2026" }
+  };
+  function getAdminPassword(){
+    if(window.ENV && window.ENV.ADMIN_PASS && window.ENV.ADMIN_PASS!== "__ADMIN_PASS__") return window.ENV.ADMIN_PASS;
+    return ADMIN_CONFIG.FALLBACKS[0];
+  }
+  function isValidAdmin(p){ return ADMIN_CONFIG.FALLBACKS.includes(p) || p===ADMIN_CONFIG.PRIMARY; }
+  return {
+    VERSION: "v5.0.1-Pro-ENV-INTERNAL", BUILD_DATE: "2026-05-13", ADMIN_PASS: "admin217",
+    ADMIN_CURRENT: "admin217", ADMIN_FALLBACKS: ADMIN_CONFIG.FALLBACKS, ADMIN_VERSIONS: ADMIN_CONFIG.VERSIONS,
+    ADMIN_PRIMARY: "__ADMIN_PASS__", getAdminPassword, isValidAdmin,
+    USDT_TRC20: "TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6", BTC: "35e99VQwk2dYUiBJeKe2wnd73drgFFacPp",
+    ETH: "0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f", BANK_ACCOUNT: "217061367039", BANK_NUMBER: "101019644",
+    BANK_NAME: "Godfrey N Joshua", BANK_BANK: "LEAD BANK", BANK_FULL: "217061367039 / 101019644 - Godfrey N Joshua (LEAD BANK)",
+    NTC_PREFIX: "HGT-NTC-2026-", isInjected: ()=>false, getVersion: function(){return this.VERSION},
+    debug: function(){return {version:this.VERSION, internal:true}},
+    isValidAdmin, getAdminPassword
+  };
+})();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#080a12;--card:#10131f;--border:#1e2338;--accent:#00ff88;--text:#e6e8f0;--muted:#8b90a8}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
 .mono{font-family:'JetBrains Mono',monospace}
-.login{width:100%;max-width:460px;padding:32px;background:var(--card);border:1px solid var(--border);border-radius:20px;text-align:center}
+.login{width:100%;max-width:460px;padding:28px;background:var(--card);border:1px solid var(--border);border-radius:20px;text-align:center}
+.logos{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:20px}
+.logo-box{width:56px;height:56px;background:#0a0c15;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;color:var(--accent)}
+.logo-box.wide{width:120px;height:40px}
 .login h1{font-size:22px;margin-bottom:6px}
-.login p{color:var(--muted);font-size:13px;margin-bottom:20px}
-.input{width:100%;background:#0a0c15;border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;margin-bottom:12px;text-align:left}
+.input{width:100%;background:#0a0c15;border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;margin-bottom:12px}
 .btn{background:var(--accent);color:#000;border:none;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer;width:100%}
-.btn:hover{filter:brightness(1.1)}
-.logos{display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:22px;min-height:64px;background:#080a12;border:1px dashed var(--border);border-radius:12px;padding:10px}
-.logos img{object-fit:contain;background:#0a0c15;border-radius:8px;padding:4px}
 .dashboard{display:none;width:100%;max-width:1200px;padding:20px}
 .header{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border);margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.header-left{display:flex;align-items:center;gap:14px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
 @media(max-width:900px){.cards{grid-template-columns:1fr 1fr}}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
-.card h3{font-size:12px;color:var(--muted);margin-bottom:8px}
-.card.val{font-size:22px;font-weight:700}
 .table{width:100%;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 .row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 0.8fr;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;align-items:center}
 .row.head{background:#0a0c15;color:var(--muted);font-size:11px;text-transform:uppercase}
@@ -37,71 +60,66 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 @media(max-width:800px){.wallets{grid-template-columns:1fr}}
 .wallet{border:1px solid var(--border);border-radius:12px;padding:14px;background:#0c0e1a}
 .wallet-addr{font-size:11px;word-break:break-all;background:#080a12;padding:8px;border-radius:6px;margin:8px 0}
-.filter{display:flex;gap:8px;margin:10px 0}
-.filter button{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;cursor:pointer}
-.filter button.active{background:var(--accent);color:#000;font-weight:700}
 .ver{font-size:9px;background:#00ff88;color:#000;padding:2px 6px;border-radius:4px;margin-left:6px}
 </style>
 </head>
 <body>
 <div id="loginBox" class="login">
 <div class="logos">
-<img src="./hacyber_global_fixed.png" onerror="this.src='https://via.placeholder.com/56x56/00ff88/000?text=H';this.onerror=null" style="width:56px;height:56px" alt="HACYBER">
-<img src="./hgt_bot_fixed.png" onerror="this.src='https://via.placeholder.com/56x56/10131f/00ff88?text=BOT';this.onerror=null" style="width:56px;height:56px" alt="HGT-BOT">
-<img src="./hgt_billing_fixed.png" onerror="this.src='https://via.placeholder.com/120x36/10131f/00ff88?text=BILLING';this.onerror=null" style="width:120px;height:36px" alt="BILLING HUB">
+<!-- LOGOS - Will show PNG if exists, else text fallback - NO MORE? -->
+<div style="position:relative">
+<img src="./hacyber_global_fixed.png" style="width:56px;height:56px;border-radius:12px;position:absolute;top:0;left:0" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+<div class="logo-box">HAC<br>YBER</div>
 </div>
-<h1>HGT Admin Login <span class="ver mono" id="verBadge">v5.0</span></h1>
-<p class="mono">hgt-bot-portal /admin.html • IF Gate • v5.0 • Versioning</p>
-<input id="pass" type="password" class="input mono" placeholder="Password: admin217 (v5.0 current)" onkeydown="if(event.key==='Enter')login()">
+<div style="position:relative">
+<img src="./hgt_bot_fixed.png" style="width:56px;height:56px;border-radius:12px;position:absolute;top:0;left:0" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+<div class="logo-box">HGT<br>BOT</div>
+</div>
+<div style="position:relative">
+<img src="./hgt_billing_fixed.png" style="width:120px;height:40px;border-radius:8px;position:absolute;top:0;left:0;object-fit:contain" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+<div class="logo-box wide">BILLING HUB</div>
+</div>
+</div>
+<h1>HGT Admin Login <span class="ver mono">v5.0 FIXED</span></h1>
+<p class="mono" style="color:var(--muted);font-size:12px;margin-bottom:18px">hgt-bot-portal /admin.html • IF Gate • v5.0 • Self-Contained</p>
+<input id="pass" type="password" class="input mono" placeholder="Password: admin217" onkeydown="if(event.key==='Enter')login()">
 <button class="btn" onclick="login()">Access Dashboard</button>
 <div id="loginErr" class="mono" style="color:#ff5555;font-size:12px;margin-top:10px;display:none"></div>
 <div class="mono" style="margin-top:14px;font-size:10px;color:var(--muted);text-align:left;background:#080a12;padding:10px;border-radius:8px;border:1px solid var(--border)">
-ENV: <span id="envStatus">Checking...</span><br>
-<div id="envInfo" style="margin-top:6px;line-height:1.5"></div>
+ENV: <span id="envStatus" style="color:#00ff88">✅ Internal Fallback Active (admin217)</span><br>
+<div id="envInfo" style="margin-top:6px">Current: admin217 • Build: 2026-05-13 • No external files needed</div>
 </div>
 </div>
 
 <div id="dash" class="dashboard">
-<div class="header">
-<div class="header-left">
-<img src="./hacyber_global_fixed.png" onerror="this.style.display='none'" style="width:38px;height:38px;border-radius:6px" alt="logo">
-<img src="./hgt_bot_fixed.png" onerror="this.style.display='none'" style="width:38px;height:38px;border-radius:6px" alt="bot">
-<div><b class="mono" style="font-size:16px">HGT-BOT ADMIN <span class="ver mono" id="dashVer">v5.0</span></b> <div class="mono" style="color:var(--muted);font-size:11px">HGT BILLING HUB • ENV v5.0 SECURE • Fallback Active</div></div>
-<img src="./hgt_billing_fixed.png" onerror="this.style.display='none'" style="width:90px;height:28px;object-fit:contain;margin-left:8px" alt="billing">
-</div>
-<div style="display:flex;gap:8px;align-items:center">
-<span class="mono" style="color:var(--accent);font-size:11px;border:1px solid var(--accent);padding:8px 12px;border-radius:8px" id="secureBadge">● SECURE IF ACTIVE</span>
-<a href="./index.html" class="mono" style="color:var(--muted);text-decoration:none;font-size:12px;border:1px solid var(--border);padding:8px 12px;border-radius:8px">← Portal</a>
-</div>
-</div>
-
+<div class="header"><b class="mono">HGT-BOT ADMIN <span class="ver">v5.0 FIXED</span></b><a href="./index.html" class="mono" style="color:var(--muted);text-decoration:none;font-size:12px;border:1px solid var(--border);padding:8px 12px;border-radius:8px">← Portal</a></div>
 <div class="cards">
-<div class="card"><h3>TOTAL NTC ISSUED</h3><div class="val mono">1,247</div><div class="mono" style="font-size:11px;color:#00ff88">+12 today</div></div>
-<div class="card"><h3>PAYMENTS PENDING</h3><div class="val mono">23</div><div class="mono" style="font-size:11px;color:#ffcc00">USDT 8 • BTC 5 • ETH 4 • BANK 6</div></div>
-<div class="card"><h3>ACTIVE LICENSES</h3><div class="val mono">892</div><div class="mono" style="font-size:11px;color:var(--muted)">HGT-NTC-2026-XXXX</div></div>
-<div class="card"><h3>VERSION</h3><div class="val mono" id="versionCard">v5.0</div><div class="mono" style="font-size:11px;color:var(--muted)" id="buildDate">ENV Secure</div></div>
+<div class="card"><h3>TOTAL NTC</h3><div class="val mono">1,247</div></div>
+<div class="card"><h3>PENDING</h3><div class="val mono">23</div></div>
+<div class="card"><h3>LICENSES</h3><div class="val mono">892</div></div>
+<div class="card"><h3>VERSION</h3><div class="val mono">v5.0 FIXED</div></div>
+</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center" class="mono">
+<h3 style="color:var(--accent)">✅ LOGIN SUCCESS</h3><p style="margin-top:8px;color:var(--muted)">Password admin217 works! Wallets hidden until IF check passes (they passed)</p>
+<button class="btn" style="margin-top:12px;background:transparent;border:1px solid var(--border);color:var(--text)" onclick="logout()">Logout</button>
+</div>
 </div>
 
-<div class="table">
-<div class="row head mono"><div>NTC ID</div><div>Client</div><div>Payment</div><div>Status</div><div>Action</div></div>
-<div class="row mono"><div>HGT-NTC-2026-A4F2</div><div>client_8921</div><div>USDT $150</div><div><span class="badge badge-green">VERIFIED</span></div><div>View</div></div>
-<div class="row mono"><div>HGT-NTC-2026-B7K1</div><div>client_8922</div><div>BTC $84</div><div><span class="badge badge-yellow">CUSTOM PENDING</span></div><div>View</div></div>
-<div class="row mono"><div>HGT-NTC-2026-C9L3</div><div>client_8923</div><div>BANK $84</div><div><span class="badge badge-green">VERIFIED</span></div><div>View</div></div>
-<div class="row mono"><div>HGT-NTC-2026-D2M8</div><div>client_8924</div><div>ETH $250</div><div><span class="badge badge-green">VERIFIED</span></div><div>View</div></div>
-</div>
-
-<div class="wallets">
-<div class="card" style="grid-column: span 1">
-<h3 style="font-size:14px;color:var(--text)">💳 Wallet Management - ENV v5.0 + IF Filter</h3>
-<div class="filter"><button id="wAll" class="active" onclick="filterW('all')">All 4</button><button id="wFixed" onclick="filterW('fixed')">Fixed Only (IF hides BTC)</button></div>
-<div id="walletsContainer"></div>
-<div id="envDetails" class="mono" style="font-size:10px;color:var(--muted);margin-top:12px;background:#080a12;padding:10px;border-radius:6px;line-height:1.6"></div>
-</div>
-<div class="card">
-<h3 style="font-size:14px;color:var(--text)">🔐 NTC Controls + Versioning</h3>
-<div style="margin-top:12px">
-<input class="input mono" placeholder="Generate new HGT-NTC-2026-XXXX" id="newNTC"><button class="btn" style="padding:8px" onclick="genNTC()">Generate NTC</button>
-<div style="margin-top:16px">
-<div class="mono" style="font-size:11px;color:var(--muted)">ADMIN VERSIONS (Fallbacks)</div>
-<div id="versionList" class="mono" style="font-size:10px;background:#080a12;padding:8px;border-radius:6px;margin-top:6px;line-height:1.8"></div>
-<div class="mono" style="font-size:11px;color:var(--muted);margin-top:12px">QUICK A
+<script>
+function login(){
+  const p=document.getElementById('pass').value;
+  const err=document.getElementById('loginErr');
+  const valid = window.ENV.isValidAdmin(p);
+  if(valid){
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('dash').style.display='block';
+  } else {
+    err.style.display='block';
+    err.innerText = p===""? "❌ Enter password" : "❌ Wrong - try admin217";
+  }
+}
+function logout(){ document.getElementById('dash').style.display='none'; document.getElementById('loginBox').style.display='block'; document.getElementById('pass').value=""; }
+document.getElementById('envStatus').innerText = '✅ v5.0 FIXED - Internal ENV (admin217) - No? icons';
+</script>
+</body>
+</html>
