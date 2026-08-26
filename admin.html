@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HGT-BOT Admin - Dashboard</title>
+<script src="config.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#080a12;--card:#10131f;--border:#1e2338;--accent:#00ff88;--text:#e6e8f0;--muted:#8b90a8}
@@ -25,7 +26,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 @media(max-width:900px){.cards{grid-template-columns:1fr 1fr}}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
 .card h3{font-size:12px;color:var(--muted);margin-bottom:8px}
-.card .val{font-size:22px;font-weight:700}
+.card.val{font-size:22px;font-weight:700}
 .table{width:100%;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 .row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 0.8fr;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;align-items:center}
 .row.head{background:#0a0c15;color:var(--muted);font-size:11px;text-transform:uppercase}
@@ -49,11 +50,11 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 <img src="hgt_billing_fixed.png" style="width:120px" alt="BILLING HUB">
 </div>
 <h1>HGT Admin Login</h1>
-<p class="mono">hgt-bot-portal /admin.html • Secure IF Gate</p>
+<p class="mono">hgt-bot-portal /admin.html • Secure IF Gate • ENV</p>
 <input id="pass" type="password" class="input mono" placeholder="Admin Password" onkeydown="if(event.key==='Enter')login()">
 <button class="btn" onclick="login()">Access Dashboard</button>
 <div id="loginErr" class="mono" style="color:#ff5555;font-size:12px;margin-top:10px;display:none"></div>
-<div class="mono" style="margin-top:12px;font-size:10px;color:var(--muted)">Wallets hidden until IF check passes</div>
+<div class="mono" style="margin-top:12px;font-size:10px;color:var(--muted)">ENV: <span id="envStatus">Checking...</span><br>Wallets hidden until IF check passes</div>
 </div>
 
 <div id="dash" class="dashboard">
@@ -61,7 +62,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 <div class="header-left">
 <img src="hacyber_global_fixed.png" style="width:38px" alt="logo">
 <img src="hgt_bot_fixed.png" style="width:38px" alt="bot">
-<div><b class="mono" style="font-size:16px">HGT-BOT ADMIN</b> <div class="mono" style="color:var(--muted);font-size:11px">v4.2.1 Pro • HGT BILLING HUB</div></div>
+<div><b class="mono" style="font-size:16px">HGT-BOT ADMIN</b> <div class="mono" style="color:var(--muted);font-size:11px">v4.2.1 Pro • HGT BILLING HUB • ENV SECURE</div></div>
 <img src="hgt_billing_fixed.png" style="width:90px;margin-left:8px" alt="billing">
 </div>
 <div style="display:flex;gap:8px;align-items:center">
@@ -87,9 +88,10 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 
 <div class="wallets">
 <div class="card" style="grid-column: span 1">
-<h3 style="font-size:14px;color:var(--text)">💳 Wallet Management - 4 Wallets</h3>
-<div class="filter"><button id="wAll" class="active" onclick="filterW('all')">All 4</button><button id="wFixed" onclick="filterW('fixed')">Fixed Only</button></div>
+<h3 style="font-size:14px;color:var(--text)">💳 Wallet Management - ENV + IF Filter</h3>
+<div class="filter"><button id="wAll" class="active" onclick="filterW('all')">All 4</button><button id="wFixed" onclick="filterW('fixed')">Fixed Only (IF hides BTC)</button></div>
 <div id="walletsContainer"></div>
+<div id="envDetails" class="mono" style="font-size:10px;color:var(--muted);margin-top:12px;background:#080a12;padding:8px;border-radius:6px"></div>
 </div>
 <div class="card">
 <h3 style="font-size:14px;color:var(--text)">🔐 NTC Controls</h3>
@@ -107,23 +109,47 @@ body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-ser
 </div>
 
 <script>
+// SECURE ENV HELPER
+function getEnv(key, fallback){
+  if(window.ENV && window.ENV[key] && window.ENV[key]!== "__" + key + "__" && window.ENV[key]!== "__ADMIN_PASS__"){
+    return window.ENV[key];
+  }
+  return fallback;
+}
+
+// ENV STATUS
+function checkEnv(){
+  const el = document.getElementById('envStatus');
+  const det = document.getElementById('envDetails');
+  if(!window.ENV){ el.innerText='❌ config.js not loaded'; el.style.color='#ff5555'; return; }
+  if(window.ENV.ADMIN_PASS==='__ADMIN_PASS__'){ el.innerText='⚠️ Placeholder (need GitHub Secrets)'; el.style.color='#ffcc00'; }
+  else { el.innerText='✅ ENV injected (Secrets active)'; el.style.color='#00ff88'; }
+  if(det){ det.innerHTML='USDT: '+getEnv('USDT_TRC20','-')+'<br>BTC: '+getEnv('BTC','-')+'<br>ETH: '+getEnv('ETH','-')+'<br>BANK: '+getEnv('BANK_ACCOUNT','-'); }
+}
+checkEnv();
+
+// SECURE: Password from ENV, fallback to old
+const ADMIN_PASSWORD = getEnv('ADMIN_PASS', 'HGTAdmin2026!');
+
+// SECURE: Wallets from ENV
 const WALLET_DATA = [
-  { type: 'fixed', title: 'USDT TRC-20 - FIXED', addr: 'TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6', desc: 'Plans: $84 / $150 / $250' },
-  { type: 'custom', title: 'BTC - CUSTOM (Yellow Badge)', addr: '35e99VQwk2dYUiBJeKe2wnd73drgFFacPp', desc: 'Custom amount - live USD→BTC converter', highlight: true },
-  { type: 'fixed', title: 'ETH ERC-20 - FIXED', addr: '0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f', desc: '' },
-  { type: 'fixed', title: 'LEAD BANK - FIXED', addr: '217061367039 / 101019644 - Godfrey N Joshua', desc: '' }
+  { type: 'fixed', title: 'USDT TRC-20 - FIXED', addr: getEnv('USDT_TRC20','TBdEnSsWQwZAMKiRe54fPi3d45aJyoXqj6'), desc: 'Plans: $84 / $150 / $250' },
+  { type: 'custom', title: 'BTC - CUSTOM (Yellow Badge)', addr: getEnv('BTC','35e99VQwk2dYUiBJeKe2wnd73drgFFacPp'), desc: 'Custom amount - live USD→BTC converter', highlight: true },
+  { type: 'fixed', title: 'ETH ERC-20 - FIXED', addr: getEnv('ETH','0x575acfce162dc14fb2f6a7440c0da61c3d5f8a8f'), desc: '' },
+  { type: 'fixed', title: 'LEAD BANK - FIXED', addr: getEnv('BANK_ACCOUNT','217061367039') + ' / ' + getEnv('BANK_NUMBER','101019644') + ' - ' + getEnv('BANK_NAME','Godfrey N Joshua') + ' ('+getEnv('BANK_BANK','LEAD BANK')+')', desc: '' }
 ];
-const ADMIN_PASSWORD = "HGTAdmin2026!";
+
 function login(){
   const p = document.getElementById('pass').value;
   const err = document.getElementById('loginErr');
+  // IF gate
   if(p === ADMIN_PASSWORD){
     document.getElementById('loginBox').style.display='none';
     document.getElementById('dash').style.display='block';
     renderWallets();
   } else {
     err.style.display='block';
-    err.innerText = p === "" ? "❌ Enter password" : "❌ Wrong password";
+    err.innerText = p === ""? "❌ Enter password (from ENV)" : "❌ Wrong password - check ENV.ADMIN_PASS";
   }
 }
 function renderWallets(){
@@ -137,11 +163,11 @@ function filterW(t){
   document.getElementById(t==='all'?'wAll':'wFixed').classList.add('active');
   document.querySelectorAll('.wallet').forEach(w=>{
     if(t==='all'){ w.style.display='block'; }
-    else { w.style.display = w.dataset.type==='fixed' ? 'block' : 'none'; }
+    else { w.style.display = w.dataset.type==='fixed'? 'block' : 'none'; }
   });
 }
 function genNTC(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';let r='';for(let i=0;i<4;i++)r+=chars.charAt(Math.floor(Math.random()*chars.length));document.getElementById('newNTC').value='HGT-NTC-2026-'+r;}
-function logout(){ if(confirm("Logout?")){ document.getElementById('walletsContainer').innerHTML=""; document.getElementById('dash').style.display='none'; document.getElementById('loginBox').style.display='block'; document.getElementById('pass').value=""; } }
+function logout(){ if(confirm("Logout? IF logout THEN hide wallets")){ document.getElementById('walletsContainer').innerHTML=""; document.getElementById('dash').style.display='none'; document.getElementById('loginBox').style.display='block'; document.getElementById('pass').value=""; } }
 </script>
 </body>
 </html>
